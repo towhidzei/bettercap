@@ -103,6 +103,7 @@ func (mod *RestAPI) streamReader(ws *websocket.Conn) {
 }
 
 func (mod *RestAPI) startStreamingEvents(w http.ResponseWriter, r *http.Request) {
+	mod.upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 	ws, err := mod.upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		if _, ok := err.(websocket.HandshakeError); !ok {
